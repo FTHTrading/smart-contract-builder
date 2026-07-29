@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Contract Builder — RWA Contract Library</title>
+<meta name="description" content="Real Solidity for real-world-asset workflows. Draw escrow, permissioned securities, REIT distribution, CMBS tranches, SREC tokens, Chainlink oracles.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">Smart Contract Builder</div>
+    <div class="brand-sub">Unykorn · RWA library · v0.5</div>
+
+    <nav>
+      <h3>Start here</h3>
+      <a href="#overview">Overview</a>
+      <a href="#status">Status legend</a>
+      <a href="#build">Build &amp; test</a>
+
+      <h3>Real Estate / Finance</h3>
+      <a href="#draw-escrow" class="cat-re">Draw Escrow (Georgia)</a>
+      <a href="#reit-distribution" class="cat-re">REIT NOI Distribution</a>
+      <a href="#cmbs-tranche" class="cat-re">CMBS Waterfall</a>
+
+      <h3>Private Credit</h3>
+      <a href="#private-credit-pool" class="cat-re">Pool Delegate Pool (Maple)</a>
+      <a href="#invoice-factoring-pool" class="cat-re">Invoice Factoring (Centrifuge)</a>
+      <a href="#bridge-loan-tranche-pool" class="cat-re">Bridge Loan Tranche Pool</a>
+      <a href="#inventory-financing-spv" class="cat-re">Inventory Financing SPV</a>
+
+      <h3>Tokenized Funds</h3>
+      <a href="#tokenized-treasury" class="cat-re">Tokenized Treasury / MMF</a>
+      <a href="#cash-management-vault" class="cat-re">Cash Management Vault</a>
+
+      <h3>Real Estate (Debt + Equity)</h3>
+      <a href="#real-estate-debt-token" class="cat-re">Tokenized Mortgage / HELOC</a>
+      <a href="#fractional-property-token" class="cat-re">Fractional Property Equity</a>
+
+      <h3>Securities</h3>
+      <a href="#permissioned-security" class="cat-sec">Permissioned Security Token</a>
+
+      <h3>ESG / Climate</h3>
+      <a href="#srec-token" class="cat-esg">SREC Token</a>
+      <a href="#gold-backed-token" class="cat-esg">Gold-Backed Token (PAXG)</a>
+      <a href="#carbon-retirement" class="cat-design">On-chain Carbon Retirement</a>
+
+      <h3>Oracles / Cross-chain</h3>
+      <a href="#chainlink-oracle" class="cat-orc">Chainlink Oracle</a>
+      <a href="#por-consumer" class="cat-orc">Proof of Reserve</a>
+      <a href="#ccip-bridge" class="cat-orc">CCIP Bridge</a>
+      <a href="#xrpl-stellar" class="cat-design">XRPL + Stellar</a>
+
+      <h3>Bringing it together</h3>
+      <a href="./landscape.html">Ecosystem landscape →</a>
+      <a href="./integrations.html">Integrations matrix →</a>
+      <a href="#playbooks">Deal playbooks</a>
+      <a href="#studio">Unykorn Studio</a>
+      <a href="#videos">Videos</a>
+      <a href="#audit">Audit posture</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+
+    <header class="page-header">
+      <h1>Smart Contract Builder</h1>
+      <div class="tagline">Real Solidity for real-world-asset workflows. Every contract compiles clean, ships with a Studio integration, and produces a hash-chained audit trail per action.</div>
+      <div class="badges">
+        <span class="badge b-nav">Solidity 0.8.24</span>
+        <span class="badge b-nav">EVM: paris</span>
+        <span class="badge b-nav">Optimizer: 200 runs</span>
+        <span class="badge b-green">17 shipped families · 24 contracts · 4,000+ Solidity lines</span>
+        <span class="badge b-amber">2 design contracts</span>
+        <span class="badge">MIT license</span>
+      </div>
+    </header>
+
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>
+        This repo contains production-shaped Solidity contracts for the real-world-asset (RWA) workflows Unykorn actually ships against: construction draw escrow (Georgia statutory-form waiver evidence layer), ERC-3643-inspired permissioned security tokens, REIT NOI distribution, CMBS 3-tranche waterfalls, SREC tokens, and Chainlink oracle consumers.
+      </p>
+      <p>
+        The library exists because <strong>Unykorn Studio</strong> — the console that drives these contracts through an approval-per-step executor with hash-chained receipts — is the product. This library is the substrate. Real contracts to run through it. Real deployments to prove the audit chain works end to end.
+      </p>
+
+      <div class="category-grid">
+        <div class="category-card cat-re">
+          <h4>🏢 Real Estate / Structured Finance</h4>
+          <div class="count">3 shipped families · 6 contracts</div>
+        </div>
+        <div class="category-card cat-re">
+          <h4>🏦 Private Credit / Institutional Lending</h4>
+          <div class="count">4 shipped families · Maple + Centrifuge (3)</div>
+        </div>
+        <div class="category-card cat-re">
+          <h4>💵 Tokenized Funds</h4>
+          <div class="count">2 shipped families · BUIDL-shape + ERC-4626 vault</div>
+        </div>
+        <div class="category-card cat-re">
+          <h4>🏠 Real Estate (Debt + Equity)</h4>
+          <div class="count">2 shipped families · Figure + RealT</div>
+        </div>
+        <div class="category-card cat-sec">
+          <h4>🏛 Securities / Compliance</h4>
+          <div class="count">1 shipped family · 3 contracts</div>
+        </div>
+        <div class="category-card cat-esg">
+          <h4>🌱 ESG / Climate / Sovereignty</h4>
+          <div class="count">2 shipped families · 1 design contract</div>
+        </div>
+        <div class="category-card cat-orc">
+          <h4>🔗 Oracles / Cross-chain</h4>
+          <div class="count">3 shipped families · 1 design contract</div>
+        </div>
+      </div>
+      <p style="margin-top: 1.5rem;">
+        <strong>See also:</strong> <a href="./landscape.html">Ecosystem landscape</a> — full Chainlink stack, tokenized private credit market leaders, and 20+ live TradFi–DeFi integrations mapped.
+      </p>
+    </section>
+
+    <section id="status">
+      <h2>Status legend</h2>
+      <p>
+        <span class="badge b-green">SHIPPED</span> Compiles clean under the pinned solc + vendored OZ. Deployable to Anvil via Unykorn Studio right now.
+      </p>
+      <p>
+        <span class="badge b-amber">DESIGN CONTRACT</span> Interface + integration shape is defined and the corresponding step kind exists in Studio's executor as an unwired branch — approve it in Studio and it fails loudly with a specific reason so the honest v0 behavior is preserved. Full implementation pending external dependency (e.g. Toucan bridge, BitGo Enterprise API, XRPL adapter subprocess).
+      </p>
+    </section>
+
+    <h2 class="section-header cat-re">🏢 Real Estate / Structured Finance</h2>
+
+    <article class="contract cat-re" id="draw-escrow">
+      <div class="contract-header">
+        <h3>Draw Escrow (Georgia)</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-nav">EVM</span>
+      </div>
+      <p class="contract-summary">
+        Milestone-indexed construction draw escrow. Payment releases require inspector attestation of milestone completion, a signed EIP-712 waiver from the attestor (title company or draw administrator), matching waiver draw-number for replay protection, and sufficient net-of-retainage funds. Two-step timelocked attestor rotation. AIA G703 milestone-field mapping.
+      </p>
+
+      <table class="specs">
+        <tr><th>Contracts</th><td>IWaiverAttestor (types) · MilestoneRegistry · DrawEscrow · LocalTestToken</td></tr>
+        <tr><th>Bytecode</th><td>DrawEscrow 6,642 bytes · MilestoneRegistry 3,181 bytes</td></tr>
+        <tr><th>Dependencies</th><td>@openzeppelin/contracts v5.0.2 (AccessControl · Pausable · ReentrancyGuard · SafeERC20 · EIP712 · SignatureChecker)</td></tr>
+        <tr><th>Reference deployment</th><td class="plain">M Helen Hotel LLC SPV (construction draws against $25M senior + $4.1M mezz)</td></tr>
+        <tr><th>Legal posture</th><td class="plain">On-chain contract EVIDENCES the waiver; does not constitute or replace the Georgia statutory-form waiver required under O.C.G.A. § 44-14-366.</td></tr>
+      </table>
+
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/draw-escrow/IWaiverAttestor.sol">IWaiverAttestor.sol</a>
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/draw-escrow/MilestoneRegistry.sol">MilestoneRegistry.sol</a>
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/draw-escrow/DrawEscrow.sol">DrawEscrow.sol</a>
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/draw-escrow/LocalTestToken.sol">LocalTestToken.sol</a>
+      </div>
+
+      <div class="legal-note">
+        <strong>Legal:</strong> Georgia's statutory lien waiver requirement (O.C.G.A. § 44-14-366) prescribes specific form language. This contract stores a keccak256 hash of the executed statutory form and enforces payment-and-waiver coupling; it does not validate the form itself. Statutory conformity, current operative text, and nonpayment mechanics must be confirmed with Georgia counsel before any live draw.
+      </div>
+    </article>
+
+    <article class="contract cat-re" id="reit-distribution">
+      <div class="contract-header">
+        <h3>REIT NOI Distribution</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-nav">EVM</span>
+      </div>
+      <p class="contract-summary">
+        Pull-based per-unit dividend distribution using the accumulator pattern (MasterChef-style). Sponsor deposits currency each period; investors claim their pro-rata share whenever they want. The token's <code>_update</code> hook settles per-holder debt on every transfer, so early or late claimers always get exactly their entitled share.
+      </p>
+
+      <table class="specs">
+        <tr><th>Contracts</th><td>DistributionToken · REITDistributor</td></tr>
+        <tr><th>Bytecode</th><td>DistributionToken 4,386 bytes · REITDistributor 4,506 bytes</td></tr>
+        <tr><th>Pattern</th><td>Accumulator (accCurrencyPerUnit + per-holder debtCursor)</td></tr>
+        <tr><th>Why not ERC20Snapshot</th><td class="plain">OZ v5 removed ERC20Snapshot. Accumulator pattern is the standard replacement — same math, works with plain ERC-20.</td></tr>
+        <tr><th>Legal posture</th><td class="plain">REIT tax status (90% distribution rule, closely-held test, qualifying-asset composition) is an off-chain determination. Contract enforces distribution mechanics only.</td></tr>
+      </table>
+
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/reit-distribution/DistributionToken.sol">DistributionToken.sol</a>
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/reit-distribution/REITDistributor.sol">REITDistributor.sol</a>
+      </div>
+    </article>
+
+    <article class="contract cat-re" id="cmbs-tranche">
+      <div class="contract-header">
+        <h3>CMBS 3-Tranche Waterfall</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-nav">EVM</span>
+      </div>
+      <p class="contract-summary">
+        Senior / mezzanine / equity distribution waterfall. Every dollar of NOI or principal repayment first satisfies senior's accrued interest + principal, then mezz, then residual to equity. Per-tranche interest accrual by simple period-multiplied rate; investors pull their pro-rata share.
+      </p>
+
+      <table class="specs">
+        <tr><th>Contract</th><td>CMBSWaterfall</td></tr>
+        <tr><th>Bytecode</th><td>5,537 bytes</td></tr>
+        <tr><th>Default rates</th><td>Senior 700 bps (7%) · Mezz 1100 bps (11%) · Equity 0 (residual)</td></tr>
+        <tr><th>Contribution</th><td class="plain">recordContribution() for admin-registered off-chain funding, or fund() for on-chain push.</td></tr>
+        <tr><th>Legal posture</th><td class="plain">CMBS securitization involves REMIC / grantor-trust tax elections and offering-document disclosures this contract does not model.</td></tr>
+      </table>
+
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/cmbs-tranche/CMBSWaterfall.sol">CMBSWaterfall.sol</a>
+      </div>
+    </article>
+
+    <h2 class="section-header cat-re" id="private-credit-section">🏦 Private Credit / Institutional Lending</h2>
+
+    <article class="contract cat-re" id="private-credit-pool">
+      <div class="contract-header">
+        <h3>Pool Delegate Pool (Maple-style)</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-nav">EVM</span>
+      </div>
+      <p class="contract-summary">
+        Institutional lending pool in the Maple Finance shape. Curated credit marketplace managed by a designated Pool Delegate (BlockTower / Room40 / AQRU-style professional credit officer) who underwrites individual borrowers, sets pool concentration limits, and posts first-loss capital to align incentives with lenders. Lender deposits gated by whitelist. Redemptions cooldown-protected to prevent runs on illiquid book.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>PoolDelegatePool</td></tr>
+        <tr><th>Roles</th><td class="plain">POOL_DELEGATE (originates loans, posts first-loss, marks defaults) · LP_WHITELIST (KYC-gated deposit access) · admin</td></tr>
+        <tr><th>Risk model (post-2022 restructuring)</th><td class="plain">Fixed-rate fixed-term loans (30–180 days typical) · overcollateralized 105–130% off-chain · Pool Delegate first-loss tranche absorbs defaults before LP write-down · per-borrower concentration cap</td></tr>
+        <tr><th>Redemption flow</th><td class="plain">requestRedemption() → cooldown elapses → executeRedemption() from idle balance</td></tr>
+        <tr><th>Reference market</th><td class="plain">Maple Finance — $4.6–$5B AUM · $2B active loans · $22B+ cumulative originations · targeting $100B annual by 2030</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/private-credit-pool/PoolDelegatePool.sol">PoolDelegatePool.sol</a>
+      </div>
+      <div class="legal-note">
+        <strong>Structure note:</strong> Real Maple deployments layer additional infrastructure — off-chain collateral custody via a qualified custodian, borrower KYC via ACE + ERC-3643, auction-based liquidation of defaulted loans, tiered lender classes. This contract ships the core pool + first-loss + concentration-cap shape; production stacks these on top.
+      </div>
+    </article>
+
+    <article class="contract cat-re" id="invoice-factoring-pool">
+      <div class="contract-header">
+        <h3>Invoice Factoring Pool (Centrifuge-shape)</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-nav">EVM</span>
+      </div>
+      <p class="contract-summary">
+        Short-tenor receivables pool. Originator funds an approved invoice at 80-90% of face value (advance rate); at maturity (30-90 days), the payer settles the full face value into the pool, which funds LP yield. Same shape Centrifuge Tinlake uses for supply-chain finance and invoice pools.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>InvoiceFactoringPool</td></tr>
+        <tr><th>Roles</th><td class="plain">ORIGINATOR (funds invoices, records repayments) · LP_WHITELIST (KYC-gated deposit access)</td></tr>
+        <tr><th>Advance rate</th><td class="plain">Configurable per invoice (80-90% typical). Discount from face becomes LP yield when payer settles.</td></tr>
+        <tr><th>Reference market</th><td class="plain">Centrifuge Tinlake — invoice financing pools + supply-chain finance</td></tr>
+        <tr><th>Playbook</th><td class="plain"><a href="#playbooks">Invoice Financing: B2B receivables factoring</a> — full deal walkthrough from SPV formation through Stage-3 scale, published underwriting rules, per-invoice operating cycle</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/invoice-factoring/InvoiceFactoringPool.sol">InvoiceFactoringPool.sol</a>
+      </div>
+    </article>
+
+    <article class="contract cat-re" id="bridge-loan-tranche-pool">
+      <div class="contract-header">
+        <h3>Bridge Loan Tranche Pool (Centrifuge Tinlake shape)</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-nav">EVM</span>
+        <span class="badge b-purple">Sky protocol composable</span>
+      </div>
+      <p class="contract-summary">
+        Two-tranche pool with ongoing origination against a rolling loan book. The originator retains all or most of the junior tranche as first-loss skin-in-the-game; on-chain investors purchase the senior tranche at a fixed APY. Distinct from CMBSWaterfall (single securitization, 3 tranches) and PoolDelegatePool (single-tier, cooldown redemption). This is the classic Centrifuge shape.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>BridgeLoanTranchePool</td></tr>
+        <tr><th>Tranche stack</th><td class="plain">Senior — whitelist-gated, fixed APY (e.g. 700-900 bps), share = currency contribution, APY accrues on top · Junior — originator only, pro-rata against junior NAV, absorbs first loss</td></tr>
+        <tr><th>Sky protocol integration</th><td class="plain">Senior tranche token is designed to be freely transferable so it composes with Sky (formerly MakerDAO) — originator posts senior tranche as collateral to borrow USDS stablecoin against the real-world asset. Historically funded 85%+ of Centrifuge-originated loans.</td></tr>
+        <tr><th>Origination flow</th><td class="plain">originateLoan() draws from idle pool currency → borrower funded · repayLoan() settles principal + accrued interest, senior gets APY, junior receives residual via _juniorNav</td></tr>
+        <tr><th>Write-down flow</th><td class="plain">writeDownLoan() marks loan defaulted, reduces totalDeployed, increments totalWriteDowns. Junior NAV absorbs first via _juniorNav clamp to zero.</td></tr>
+        <tr><th>Reference market</th><td class="plain">Centrifuge active pools ~$430M + Janus Henderson JTRSY $880M</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/bridge-loan-pool/BridgeLoanTranchePool.sol">BridgeLoanTranchePool.sol</a>
+      </div>
+    </article>
+
+    <article class="contract cat-re" id="inventory-financing-spv">
+      <div class="contract-header">
+        <h3>Inventory Financing SPV</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-nav">EVM</span>
+        <span class="badge b-purple">Playbook: EV chargers</span>
+      </div>
+      <p class="contract-summary">
+        Single-asset asset-backed loan for physical inventory sitting in a warehouse. UCC-1 lien hash pinned on-chain as evidentiary anchor (physical UCC-1 filing with the state remains the operative lien). Senior/junior tranche stack: senior investors get fixed rate + priority; junior tranche (typically originator or family office) absorbs first loss. Amortizing repayment with waterfall.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>InventoryFinancingSPV</td></tr>
+        <tr><th>Phases</th><td class="plain">Setup → Funding → Active → Repaid | Defaulted</td></tr>
+        <tr><th>Reference deal</th><td class="plain">$2M EV chargers in a Tennessee warehouse — 80% advance ($1.6M senior at 900 bps) + 20% junior tranche ($320K first-loss) + 18 month amortizing term. Full walkthrough in <a href="#playbooks">Deal Playbooks</a> section below.</td></tr>
+        <tr><th>Off-chain enforcement</th><td class="plain">On default, physical repossession + auction proceeds through state court under UCC Article 9. Realistic 6-18 month enforcement timeline with 50-80% recovery expectation. Contract records defaulted state; recovery distributions happen off-chain then are recorded back.</td></tr>
+        <tr><th>Funding venue options</th><td class="plain">Centrifuge (senior tranche composable with Sky protocol for USDS borrow) · Maple (Pool Delegate underwrites) · Family office / private capital direct</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/inventory-financing/InventoryFinancingSPV.sol">InventoryFinancingSPV.sol</a>
+      </div>
+      <div class="legal-note">
+        <strong>Legal:</strong> Contract stores UCC-1 filing hash + inventory attestation hash. Actual UCC-1 must be filed with the state's Secretary of State (Tennessee TDOC for a TN warehouse) to perfect the lien. On-chain hash proves the filing existed with that content at that time; it does not create the lien.
+      </div>
+    </article>
+
+    <h2 class="section-header cat-re" id="tokenized-funds-section">💵 Tokenized Funds</h2>
+
+    <article class="contract cat-re" id="tokenized-treasury">
+      <div class="contract-header">
+        <h3>Tokenized Treasury / Money Market Fund</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-purple">BUIDL / OUSG / USYC shape</span>
+        <span class="badge b-orange">PoR-gated mint</span>
+      </div>
+      <p class="contract-summary">
+        On-chain wrapper for a tokenized Treasury fund. Composable design: receiver eligibility via a PermissionedToken-shape gate, mint circuit breaker via ProofOfReserveConsumer, NAV-priced subscription/redemption with a T+N settlement queue. Same shape BlackRock BUIDL (Securitize transfer agent), Franklin Templeton BENJI, Ondo OUSG, and Circle USYC ship.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>TokenizedTreasury</td></tr>
+        <tr><th>Composes with</th><td class="plain"><a href="#permissioned-security">PermissionedToken</a> (receiver eligibility) · <a href="#por-consumer">ProofOfReserveConsumer</a> (mint circuit breaker)</td></tr>
+        <tr><th>NAV pricing</th><td class="plain">Admin publishes daily NAV per share; subscriptions/redemptions price against that NAV with T+N settlement queue</td></tr>
+        <tr><th>Reference deployments</th><td class="plain">BUIDL ($500M+ AUM) · BENJI · OUSG · USYC</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/tokenized-treasury/TokenizedTreasury.sol">TokenizedTreasury.sol</a>
+      </div>
+    </article>
+
+    <article class="contract cat-re" id="cash-management-vault">
+      <div class="contract-header">
+        <h3>Cash Management Vault (ERC-4626)</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-purple">ERC-4626</span>
+      </div>
+      <p class="contract-summary">
+        Deposits stablecoin, allocator role rebalances between yield-bearing RWA shares (BUIDL / USYC / BENJI) while maintaining a minimum reserve ratio for instant redemptions. Reference shape: Maple Cash Management, Anchorage cash sweep.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>CashManagementVault</td></tr>
+        <tr><th>Roles</th><td class="plain">ALLOCATOR (rebalances into yield-bearing RWA shares) · admin</td></tr>
+        <tr><th>Reserve ratio</th><td class="plain">Configurable minimum stablecoin reserve (e.g. 10%) held in the vault at all times for instant redemptions. Allocator cannot deploy below the floor.</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/cash-management/CashManagementVault.sol">CashManagementVault.sol</a>
+      </div>
+    </article>
+
+    <h2 class="section-header cat-re" id="real-estate-debt-equity-section">🏠 Real Estate (Debt + Equity)</h2>
+
+    <p style="margin: 0 0 1.25rem 0; color: var(--muted, #555);">
+      Two orthogonal ways to put real estate on-chain — a claim on the loan's cash flow (debt) vs a claim on the property's economic upside (equity). Both shipped; pick the one that matches the deal.
+    </p>
+
+    <article class="contract cat-re" id="real-estate-debt-token">
+      <div class="contract-header">
+        <h3>Tokenized Mortgage / HELOC (Figure-shape)</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-nav">EVM</span>
+        <span class="badge b-purple">Reg D 506(c) / Reg S</span>
+      </div>
+      <p class="contract-summary">
+        Fungible ERC-20 claim on a single mortgage or HELOC. Servicer records monthly principal + interest payments received from the borrower; the accumulator pattern distributes to token holders pro-rata. Mortgage note hash + property deed hash + property address hash pinned on-chain as evidentiary anchors (physical note remains the operative legal instrument). Reference: Figure Technology Solutions — $18B+ tokenized HELOCs + mortgages on Provenance Blockchain.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>RealEstateDebtToken</td></tr>
+        <tr><th>Roles</th><td class="plain">ISSUER (mints shares during offering) · SERVICER (records monthly P+I payments, can declare default) · admin</td></tr>
+        <tr><th>Eligibility gate</th><td class="plain">Same PermissionedToken-shape claim-topic gate on every transfer. Default topics: [1=KYC, 2=accredited, 3=US-jurisdiction] for Reg D 506(c); drop topic 3 for Reg S non-US.</td></tr>
+        <tr><th>Amortization</th><td class="plain">Not computed on-chain — servicer's system of record produces principal/interest split per amortization schedule, then calls recordPayment(principalPortion, interestPortion)</td></tr>
+        <tr><th>Default flow</th><td class="plain">declareDefault() marks the loan defaulted, halts new payment recording. Outstanding principal is emitted for downstream recovery workflow (foreclosure, property sale, distribution of net proceeds).</td></tr>
+        <tr><th>Reference market</th><td class="plain">Figure Technology Solutions — $18-20B represented value, 56% of Q1 2026 tokenized loan volumes</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/real-estate-debt/RealEstateDebtToken.sol">RealEstateDebtToken.sol</a>
+      </div>
+      <div class="legal-note">
+        <strong>Legal:</strong> Mortgage-backed claims are securities under U.S. federal law. Regulation D 506(c) issuance requires accredited-investor verification (typically via a Securitize-registered transfer agent or equivalent). The physical mortgage note remains the operative legal instrument; the on-chain token is the settlement + cash-flow-distribution layer.
+      </div>
+    </article>
+
+    <article class="contract cat-re" id="fractional-property-token">
+      <div class="contract-header">
+        <h3>Fractional Property Equity (RealT / Lofty-shape)</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-nav">EVM</span>
+        <span class="badge b-purple">Reg S / Reg D</span>
+      </div>
+      <p class="contract-summary">
+        Fungible fractional equity in a single property held by a Delaware LLC SPV. Sponsor mints ERC-20 shares to eligible investors during offering; property manager deposits net rental income (after property tax, insurance, maintenance reserves) into the contract at operational cadence; accumulator pattern distributes to holders. On property sale, sponsor deposits sale proceeds and holders redeem tokens for pro-rata cash. Reference: RealT and Lofty — U.S. Midwest residential properties tokenized as SPV shares with daily USDC rental distribution.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>FractionalPropertyToken</td></tr>
+        <tr><th>Roles</th><td class="plain">SPONSOR (mints shares, records property sale) · PROPERTY_MANAGER (deposits net rental income at configured cadence) · admin</td></tr>
+        <tr><th>Distribution cadence</th><td class="plain">RealT: daily USDC · Lofty: weekly · larger commercial: monthly. Contract is agnostic — property manager chooses.</td></tr>
+        <tr><th>Sale-of-property flow</th><td class="plain">recordSale() sets salePoolPerShare and freezes rental deposits. Holders call redeemSaleShare() to burn their tokens and receive pending rental + pro-rata sale proceeds in one call.</td></tr>
+        <tr><th>Evidentiary hashes</th><td class="plain">propertyAddressHash (privacy — address itself not committed) · propertyDeedHash · spvFormationDocHash (Articles of Organization + Operating Agreement)</td></tr>
+        <tr><th>Reference market</th><td class="plain">RealT · Lofty — combined ~$100M+ property NAV, primarily Midwest single-family residential</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/fractional-property/FractionalPropertyToken.sol">FractionalPropertyToken.sol</a>
+      </div>
+      <div class="legal-note">
+        <strong>Legal:</strong> Fractional real estate SPV interests are securities in most jurisdictions. RealT's production model restricts to non-U.S. retail via Reg S; other issuers use Reg D 506(c) for U.S. accredited. The Delaware LLC formation, property title transfer, insurance, and ongoing tax filings (K-1s for U.S. LLC members) are the sponsor's off-chain responsibility.
+      </div>
+    </article>
+
+    <h2 class="section-header cat-sec">🏛 Securities / Compliance</h2>
+
+    <article class="contract cat-sec" id="permissioned-security">
+      <div class="contract-header">
+        <h3>Permissioned Security Token</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-purple">ERC-3643-inspired</span>
+        <span class="badge b-nav">EVM</span>
+      </div>
+      <p class="contract-summary">
+        Three-contract permissioned securities stack. Every transfer (including mint) checks the receiver is registered in the IdentityRegistry AND holds every claim topic required by the ClaimTopicsRegistry. Suitable for SPV equity, private-debt tranche tokens, and compliance-gated stablecoins.
+      </p>
+
+      <table class="specs">
+        <tr><th>Contracts</th><td>IdentityRegistry · ClaimTopicsRegistry · PermissionedToken</td></tr>
+        <tr><th>Bytecode</th><td>2,682 + 2,382 + 6,645 bytes</td></tr>
+        <tr><th>Simplified vs full T-REX</th><td class="plain">Production Tokeny T-REX has 6 contracts. We ship the 3 that matter for a single-issuer SPV. Add ModularCompliance when transfer rules need per-jurisdiction or per-investor-class logic.</td></tr>
+        <tr><th>Emergency controls</th><td class="plain">freezeTokens (per-address partial freeze) · forceTransfer (court-ordered, emits reason string) · pause</td></tr>
+        <tr><th>Legal posture</th><td class="plain">Securities-law obligations (Reg D / Reg S / private-placement filings) remain unchanged. Contract enforces transfer eligibility only.</td></tr>
+      </table>
+
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/permissioned-security/IdentityRegistry.sol">IdentityRegistry.sol</a>
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/permissioned-security/ClaimTopicsRegistry.sol">ClaimTopicsRegistry.sol</a>
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/permissioned-security/PermissionedToken.sol">PermissionedToken.sol</a>
+      </div>
+    </article>
+
+    <h2 class="section-header cat-esg">🌱 ESG / Climate / Sovereignty</h2>
+
+    <article class="contract cat-esg" id="srec-token">
+      <div class="contract-header">
+        <h3>SREC Token</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge">ERC-1155</span>
+        <span class="badge b-nav">EVM</span>
+      </div>
+      <p class="contract-summary">
+        One-MWh Solar/Renewable Energy Credit. Mint requires an EIP-712 attestation signed by the registered generator's meter agent (utility, PJM-GATS agent, or on-site data logger). Vintage year + state encoded in the token ID so buyers can filter. Burn is retirement — emits a Retirement event with a reason string for the audit trail.
+      </p>
+
+      <table class="specs">
+        <tr><th>Contract</th><td>SRECToken</td></tr>
+        <tr><th>Bytecode</th><td>11,108 bytes</td></tr>
+        <tr><th>Token ID encoding</th><td>(vintageYear &lt;&lt; 240) | (state &gt;&gt; 16)</td></tr>
+        <tr><th>Meter attestation</th><td class="plain">EIP-712 typed data (generatorId, vintageYear, state, mwhGenerated, nonce, issuedAt) signed by the attestor registered for that generator. Nonces are monotonic per generator.</td></tr>
+        <tr><th>Legal posture</th><td class="plain">Settlement / secondary-market layer, NOT a replacement for state-registry minting. Compliance-market SRECs (NJ, MA, DC, MD, DE, CT) still need PJM-GATS / NEPOOL-GIS / WREGIS serial numbers.</td></tr>
+      </table>
+
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/srec-token/SRECToken.sol">SRECToken.sol</a>
+      </div>
+    </article>
+
+    <article class="contract cat-esg" id="gold-backed-token">
+      <div class="contract-header">
+        <h3>Gold-Backed Token (PAXG-shape)</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-orange">Chainlink PoR</span>
+      </div>
+      <p class="contract-summary">
+        Commodity RWA. 1 token = 1 troy oz LBMA-good-delivery gold (4 decimals). Mint gated by ProofOfReserveConsumer circuit breaker against LBMA-vault attestations. Redemption for physical: burn on-chain, physical shipment fulfilled off-chain by the reserve manager. Reference shape: Paxos PAXG.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>GoldBackedToken</td></tr>
+        <tr><th>Composes with</th><td class="plain"><a href="#por-consumer">ProofOfReserveConsumer</a> — feed must report reserves ≥ circulating supply × over-collateralization ratio before mint proceeds</td></tr>
+        <tr><th>Redemption flow</th><td class="plain">Holder calls requestRedemption(oz) → burns tokens → reserve manager fulfills physical shipment off-chain against redemption ticket</td></tr>
+        <tr><th>Reference deployments</th><td class="plain">PAXG (Paxos, LBMA vault attestations) · XAUT (Tether)</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/gold-backed/GoldBackedToken.sol">GoldBackedToken.sol</a>
+      </div>
+    </article>
+
+    <article class="contract cat-design" id="carbon-retirement">
+      <div class="contract-header">
+        <h3>On-chain Carbon Retirement</h3>
+        <span class="badge b-amber">DESIGN CONTRACT</span>
+      </div>
+      <p class="contract-summary">
+        Burn a tokenized Verra VCU (Toucan bridge on Polygon) or an issue-native Puro credit (ERC-3643) to retire it against a corporate ESG claim. LPS-1 provenance receipt anchored to Polygon 137 + Bitcoin OpenTimestamps.
+      </p>
+
+      <table class="specs">
+        <tr><th>Studio step kind</th><td>retire_credit_onchain</td></tr>
+        <tr><th>Gate policy</th><td>IRREVERSIBLE — requires typing RETIRE_CREDIT_ONCHAIN at approval time regardless of user tier</td></tr>
+        <tr><th>External deps</th><td class="plain">Toucan-bridged Verra VCUs, Moss MCO2, or Puro-native ERC-3643 credits</td></tr>
+        <tr><th>Related</th><td class="plain">Companion to Carbon Portfolio Assessment capability in Studio (calls Unykorn Carbon engine for footprint + offset recommendation, then hands off to on-chain retirement)</td></tr>
+      </table>
+    </article>
+
+    <h2 class="section-header cat-orc">🔗 Oracles / Cross-chain</h2>
+
+    <article class="contract cat-orc" id="por-consumer">
+      <div class="contract-header">
+        <h3>Proof of Reserve Consumer</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-orange">Chainlink PoR</span>
+        <span class="badge b-nav">EVM</span>
+      </div>
+      <p class="contract-summary">
+        Reads a Chainlink Proof of Reserve feed and drives an automated circuit breaker over minting for a backed RWA token. If off-chain reserves fall below the on-chain circulating supply (adjusted for a configurable over-collateralization ratio), minting auto-pauses until reserves are restored. Same pattern 21.co, Backed, Bedrock, and Bancolombia use in production.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>ProofOfReserveConsumer</td></tr>
+        <tr><th>Integration</th><td class="plain">Issuer's mint path calls <code>requireCanMint(currentSupply, mintAmount)</code> before <code>_mint</code>. Reverts with <code>InsufficientReserves</code> if over-collateral threshold breached.</td></tr>
+        <tr><th>Safety checks</th><td class="plain">Feed staleness · negative-answer rejection · incomplete-round rejection · configurable over-collateralization bps</td></tr>
+        <tr><th>Live PoR users</th><td class="plain">21.co (ARK 21Shares BTC ETF) · Backed · Bedrock · Wenia/Bancolombia</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/chainlink-proof-of-reserve/ProofOfReserveConsumer.sol">ProofOfReserveConsumer.sol</a>
+      </div>
+    </article>
+
+    <article class="contract cat-orc" id="ccip-bridge">
+      <div class="contract-header">
+        <h3>CCIP Bridged Token</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-orange">Chainlink CCIP</span>
+        <span class="badge">Burn-and-Mint</span>
+      </div>
+      <p class="contract-summary">
+        ERC-20 that moves across chains via Chainlink CCIP burn-and-mint. Zero liquidity-pool risk — supply stays unified across every chain. Peer whitelist means only trusted deployments can trigger cross-chain mints. Programmable transfers can bundle tokens + data + instructions atomically (used by Swift+UBS, ANZ, HSBC+Ant Group pilots).
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>CCIPBridgedToken</td></tr>
+        <tr><th>Mechanism</th><td class="plain">On source: burn locally + <code>ccipSend</code>. On destination: <code>ccipReceive</code> verifies peer + <code>_mint</code>.</td></tr>
+        <tr><th>Reach</th><td class="plain">70+ CCIP-supported chains — Ethereum, Polygon, Arbitrum, Base, Avalanche, BNB, Optimism, and expanding</td></tr>
+        <tr><th>Institutional pilots</th><td class="plain">Swift + UBS · ANZ · SBI Digital + ADDX · HSBC + Ant Group</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/chainlink-ccip-bridge/CCIPBridgedToken.sol">CCIPBridgedToken.sol</a>
+      </div>
+    </article>
+
+    <article class="contract cat-orc" id="chainlink-oracle">
+      <div class="contract-header">
+        <h3>Chainlink Oracle Consumer</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-orange">Chainlink</span>
+        <span class="badge b-nav">EVM</span>
+      </div>
+      <p class="contract-summary">
+        Wrapper contract for Chainlink AggregatorV3 price feeds with staleness and heartbeat safety checks. RWA contracts (draw escrow, CMBS waterfall, REIT distributor) that need external prices for collateral valuation or NAV calculation read through this wrapper. If any safety check fails, the read reverts with a specific reason.
+      </p>
+
+      <table class="specs">
+        <tr><th>Contract</th><td>RWAOracle</td></tr>
+        <tr><th>Bytecode</th><td>3,386 bytes</td></tr>
+        <tr><th>Safety checks</th><td class="plain">NegativeAnswer · IncompleteRound (answeredInRound &lt; roundId) · AnswerStale · HeartbeatMissed</td></tr>
+        <tr><th>Two entry points</th><td class="plain">priceFresh() — reverts on any safety violation (use for contracts that MOVE FUNDS). priceRaw() — no checks (use for read-only UI display).</td></tr>
+        <tr><th>Why</th><td class="plain">&gt;90% of DeFi oracle exploits historically have been stale-price or incomplete-round attacks against contracts that used AggregatorV3.latestRoundData() directly with no safety wrapper.</td></tr>
+      </table>
+
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/chainlink-oracle/RWAOracle.sol">RWAOracle.sol</a>
+      </div>
+    </article>
+
+    <article class="contract cat-design" id="xrpl-stellar">
+      <div class="contract-header">
+        <h3>XRPL Hooks + Stellar SEP Token</h3>
+        <span class="badge b-amber">DESIGN CONTRACT</span>
+      </div>
+      <p class="contract-summary">
+        Multi-chain expansion. XRPL Hooks in C for XRPL-native lending flows (the pattern used by xrplloans.unykorn.org). Stellar SEP-based assets for cross-border settlement.
+      </p>
+
+      <table class="specs">
+        <tr><th>Studio step kinds</th><td>deploy_xrpl_hook · deploy_stellar_asset (planned)</td></tr>
+        <tr><th>Adapter pattern</th><td class="plain">Subprocess bridges (Python for XRPL SDK, JS or Go for Stellar) — same shape Studio uses for the Carbon engine bridge.</td></tr>
+        <tr><th>Related infra</th><td class="plain">XRPL treasury: rsJ3PGGDH4vPpedjfVRe9YKTCf9BWu6TDC · Stellar treasury: GBJF54FBYPBVHR6Z3OKWWEMPF6QYPNH3RZZYX3E4V7AUMUWIEV7Z3DPX</td></tr>
+      </table>
+    </article>
+
+    <h2 id="build">Build &amp; test</h2>
+    <p>Requires <a href="https://book.getfoundry.sh/getting-started/installation">Foundry</a>.</p>
+    <pre><code># Install OpenZeppelin dependencies (pinned)
+forge install OpenZeppelin/openzeppelin-contracts@v5.0.2 --no-git
+
+# Compile all contracts
+forge build
+
+# Run tests (when tests are added)
+forge test -vv
+
+# Deploy against a local Anvil
+anvil --host 127.0.0.1 --port 8545 --chain-id 31337 &amp;
+forge script script/Deploy&lt;Name&gt;.s.sol --rpc-url http://127.0.0.1:8545 --broadcast</code></pre>
+    <p>
+      Determinism settings (frozen, in <code>foundry.toml</code>): <code>solc 0.8.24</code> · <code>optimizer 200 runs</code> · <code>evm_version paris</code> · <code>bytecode_hash ipfs</code>. Same as Unykorn Studio's compile pipeline. Bytecode compiled here is byte-for-byte identical to what Studio produces via its self-hosted WASM worker.
+    </p>
+
+    <h2 id="playbooks">Deal Playbooks</h2>
+    <p>
+      Concrete end-to-end walkthroughs of real deals against the contract library — legal structure, funding-venue selection, term sheet, constructor calls, week-by-week execution, and realistic default enforcement.
+    </p>
+    <ul>
+      <li>
+        <a href="https://github.com/FTHTrading/smart-contract-builder/blob/main/playbooks/inventory-financing-ev-chargers.md"><strong>Inventory Financing: $2M EV chargers in a Tennessee warehouse</strong></a>
+        <div style="margin-top: 0.35rem; color: var(--muted, #555);">
+          Delaware LLC formation → Centrifuge vs Maple funding venue comparison → senior/junior tranche stack ($1.6M senior at 900 bps + $320K junior first-loss) → 18-month amortizing term → constructor payload for <code>InventoryFinancingSPV</code> → UCC-1 filing checklist → month-by-month execution timeline → realistic 6-18 month enforcement path with 50-80% recovery expectation.
+        </div>
+      </li>
+      <li style="margin-top: 1rem;">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/blob/main/playbooks/invoice-financing.md"><strong>Invoice Financing: B2B receivables factoring</strong> — the easiest RWA to launch first</a>
+        <div style="margin-top: 0.35rem; color: var(--muted, #555);">
+          Delaware SPV + Receivables Purchase Agreement + UCC-1 → published underwriting rules (85% advance, 20% debtor concentration cap, 90 day max tenor, 5-day dispute repurchase) → three-stage funding funnel (anchor $250K-$1M → repeatable $1M-$10M → Sky/Centrifuge $10M+) → constructor payload for <code>InvoiceFactoringPool</code> → 6-step per-invoice operating cycle → dispute vs slow-pay vs write-off failure playbooks → realistic 6-7% net LP yield economics → graduation path to <code>BridgeLoanTranchePool</code> at ~$5M AUM.
+        </div>
+      </li>
+    </ul>
+    <p>
+      More playbooks pending against <a href="#cmbs-tranche">CMBSWaterfall</a> (M Helen Hotel refinance), <a href="#real-estate-debt-token">RealEstateDebtToken</a> (single-HELOC issuance), and <a href="#private-credit-pool">PoolDelegatePool</a> (curated credit onboarding).
+    </p>
+
+    <h2 id="studio">Bringing it together: Unykorn Studio</h2>
+    <p>
+      Every contract family here has a companion template in <a href="https://github.com/FTHTrading/unykorn-studio">Unykorn Studio</a>. Studio drives the contracts through a per-step approval console with a SHA-256 hash-chained receipt written for every state transition — proposal, approval, execution, failure, source-modified, waiver-committed, attestation-received, draw-released, and every custom action per capability.
+    </p>
+    <p>
+      The chain is unbroken from "the operator asked for this" through "this exact bytecode was compiled from these exact sources" through "it deployed with these exact deal terms" through "this draw released against this waiver." Counsel can independently verify every claim by:
+    </p>
+    <ol>
+      <li>Running <code>curl -s http://localhost:3200/api/receipts | jq .verification</code> — returns <code>{ valid: true }</code> if the chain is intact.</li>
+      <li>Editing any past receipt in <code>.unykorn/receipts.jsonl</code> and re-running — returns <code>{ valid: false, brokenAtSeq: N, reason: "content tampered" }</code>.</li>
+      <li>Reproducing a compile from the receipt's <code>inputHash</code> + committed solc binary — byte-for-byte match.</li>
+      <li>Reproducing a deploy's integrity check by hashing <code>maskImmutables(eth_getCode)</code> against the compile receipt's <code>deployedBytecodeSha256</code>.</li>
+    </ol>
+
+    <h2 id="videos">Videos</h2>
+    <p>
+      Explainer scripts and storyboards live in <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/videos">/videos</a>. Record via OBS or Loom; publish to YouTube; embed below when links are live.
+    </p>
+    <ul>
+      <li>00 — Overview: what this library is and isn't (4 min)</li>
+      <li>01 — Draw Escrow: the M Helen use case (7 min)</li>
+      <li>02 — Permissioned Securities: ERC-3643 without T-REX complexity (6 min)</li>
+      <li>03 — Carbon Portfolio: subprocess bridge as abstraction test (5 min)</li>
+      <li>04 — The tamper beat: proving the ledger is not editable (3 min)</li>
+    </ul>
+
+    <h2 id="audit">Audit posture</h2>
+    <p>
+      <strong>None of these contracts have been externally audited.</strong> Before any deployment holding real funds:
+    </p>
+    <ol>
+      <li>External security audit (Trail of Bits, ConsenSys Diligence, OpenZeppelin, Sherlock, Code4rena — pick based on capability and budget).</li>
+      <li>Static + dynamic analysis (Slither + Mythril + Foundry fuzz + invariant testing).</li>
+      <li>Deployment through Unykorn Studio's <code>sign_external</code> step (BitGo hand-off). Studio never holds testnet or mainnet keys.</li>
+      <li>Verify on Etherscan / Sourcify — <code>metadata.bytecodeHash: ipfs</code> makes verification straightforward.</li>
+      <li>Bug bounty program (Immunefi or HackenProof), commensurate with TVL.</li>
+    </ol>
+    <p>
+      Every contract has been designed to be audit-friendly (single-purpose, minimal external calls, explicit custom errors, natspec) — but designed-to-be-audit-friendly is not the same as audited.
+    </p>
+
+    <footer class="site-footer">
+      <p>
+        Smart Contract Builder v0.5 · MIT License · <a href="https://github.com/FTHTrading/smart-contract-builder">GitHub</a> · <a href="https://github.com/FTHTrading/unykorn-studio">Unykorn Studio</a>
+      </p>
+      <p>
+        UnyKorn LLC · Wyoming · EIN 42-3536633 · Every contract here is engineering scaffolding. Every deployment against a real chain requires an external audit and licensed counsel in the operating jurisdiction.
+      </p>
+    </footer>
+
+  </main>
+</div>
+
+</body>
+</html>

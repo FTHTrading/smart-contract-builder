@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landscape — Smart Contract Builder</title>
+<meta name="description" content="Where our RWA contracts sit in the wider Chainlink + tokenized-private-credit ecosystem.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">Smart Contract Builder</div>
+    <div class="brand-sub">Ecosystem landscape</div>
+
+    <nav>
+      <h3>Back to</h3>
+      <a href="./index.html">Contract catalog</a>
+
+      <h3>Chainlink Stack</h3>
+      <a href="#data-valuation" class="cat-orc">Data & Valuation</a>
+      <a href="#por" class="cat-orc">Proof of Reserve</a>
+      <a href="#ccip" class="cat-orc">CCIP</a>
+      <a href="#identity" class="cat-orc">Identity (ACE + DECO)</a>
+      <a href="#cre" class="cat-orc">CRE Orchestration</a>
+
+      <h3>Private Credit + Real Estate</h3>
+      <a href="#figure" class="cat-re">Figure Technology</a>
+      <a href="#maple" class="cat-re">Maple Finance</a>
+      <a href="#centrifuge" class="cat-re">Centrifuge (3 families)</a>
+      <a href="#goldfinch" class="cat-re">Goldfinch</a>
+      <a href="#realt-lofty" class="cat-re">RealT · Lofty (fractional property)</a>
+      <a href="#securitize" class="cat-sec">Securitize</a>
+
+      <h3>Major Integrations</h3>
+      <a href="#chainlink-banks" class="cat-orc">Chainlink + Banking</a>
+      <a href="#credit-integrations" class="cat-re">Credit Platforms</a>
+      <a href="#dexes" class="cat-sec">DEXes + Asset Managers</a>
+      <a href="#exchanges" class="cat-sec">Exchanges + Consortia</a>
+
+      <h3>Position</h3>
+      <a href="#where-we-fit">Where Unykorn fits</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+
+    <header class="page-header">
+      <h1>Ecosystem Landscape</h1>
+      <div class="tagline">Where our RWA contracts sit in the wider Chainlink stack, the tokenized-private-credit market, and the tradfi–defi integration map circa 2026.</div>
+      <div class="badges">
+        <span class="badge b-orange">Chainlink stack: 8 modules</span>
+        <span class="badge b-nav">Private credit: $25B+ tokenized</span>
+        <span class="badge b-purple">Integrations: 20+ live pilots</span>
+      </div>
+    </header>
+
+    <section id="intro">
+      <p>
+        Smart Contract Builder is not attempting to replace any of the platforms below. The library slots into the existing ecosystem as the substrate that produces a hash-chained audit trail through the same contracts these platforms already deploy. This page maps the ecosystem as of 2026 and marks where each piece of Chainlink infrastructure, each private-credit venue, and each major TradFi integration intersects with our contract families.
+      </p>
+    </section>
+
+    <h2 class="section-header cat-orc">🔗 Chainlink Stack</h2>
+
+    <p>
+      Chainlink has evolved far beyond price feeds into a comprehensive middleware layer for tokenized RWAs. Their stack now covers data, valuation, solvency, cross-chain movement, identity, and orchestration. Every module below is a hook Smart Contract Builder contracts can integrate with.
+    </p>
+
+    <article class="contract cat-orc" id="data-valuation">
+      <div class="contract-header">
+        <h3>Data Feeds · Data Streams · SmartData</h3>
+        <span class="badge b-orange">Chainlink</span>
+        <span class="badge b-green">Integrated (RWAOracle)</span>
+      </div>
+      <p class="contract-summary">
+        Decentralized oracle networks providing tamper-proof market data. Data Feeds for standard rate/price data (SOFR, LIBOR, gold spot, FX). Data Streams for high-frequency sub-second updates needed for complex trading products. SmartData embeds Net Asset Value, Assets Under Management, and reserve status directly into a token's metadata so it carries its valuation wherever it moves.
+      </p>
+      <table class="specs">
+        <tr><th>Our integration</th><td class="plain"><a href="./index.html#chainlink-oracle">RWAOracle.sol</a> — AggregatorV3 wrapper with 4 safety checks (non-negative, complete round, staleness, heartbeat)</td></tr>
+        <tr><th>Reference deployments</th><td class="plain">CMBS waterfall reads Chainlink SOFR feed for floating-rate accrual · REIT distributor reads NAV feed via SmartData for share price</td></tr>
+      </table>
+    </article>
+
+    <article class="contract cat-orc" id="por">
+      <div class="contract-header">
+        <h3>Proof of Reserve</h3>
+        <span class="badge b-orange">Chainlink</span>
+        <span class="badge b-green">Integrated (PoR Consumer)</span>
+      </div>
+      <p class="contract-summary">
+        Replaces opaque, manual off-chain audits with continuous, cryptographic verification. Monitors off-chain vaults (fiat, gold, real-estate deeds) via APIs and pushes updates on-chain based on deviation or heartbeat thresholds. Wired directly into token mint paths as an automated circuit breaker: if reserves fall below circulating supply, minting auto-pauses.
+      </p>
+      <table class="specs">
+        <tr><th>Our integration</th><td class="plain"><a href="./index.html#por-consumer">ProofOfReserveConsumer.sol</a> — reads PoR feed, drives circuit breaker over mint with configurable over-collateralization ratio</td></tr>
+        <tr><th>Live PoR users</th><td class="plain">21.co (ARK 21Shares BTC ETF) · Backed · Bedrock · Wenia/Bancolombia</td></tr>
+      </table>
+    </article>
+
+    <article class="contract cat-orc" id="ccip">
+      <div class="contract-header">
+        <h3>Cross-Chain Interoperability Protocol (CCIP)</h3>
+        <span class="badge b-orange">Chainlink</span>
+        <span class="badge b-green">Integrated (CCIP Bridge)</span>
+      </div>
+      <p class="contract-summary">
+        Universal messaging + transfer layer across 70+ blockchains. Burn-and-mint mechanism means no honey-pot liquidity pool to drain — supply stays unified. Programmable transfers can bundle tokens + data + instructions atomically (send stablecoins, pass compliance check, mint credit shares, route yield back, all in one transaction).
+      </p>
+      <table class="specs">
+        <tr><th>Our integration</th><td class="plain"><a href="./index.html#ccip-bridge">CCIPBridgedToken.sol</a> — ERC-20 with burn-and-mint cross-chain bridging via peer-whitelisted CCIP router</td></tr>
+        <tr><th>Institutional pilots</th><td class="plain">Swift + UBS (tokenized fund subscriptions) · ANZ (DvP under Project Guardian) · SBI Digital + ADDX (cross-chain fund admin) · HSBC + Ant Group (cross-border tokenized deposits)</td></tr>
+      </table>
+    </article>
+
+    <article class="contract cat-orc" id="identity">
+      <div class="contract-header">
+        <h3>ACE + DECO — Identity &amp; Privacy</h3>
+        <span class="badge b-orange">Chainlink</span>
+        <span class="badge b-amber">Integration Design</span>
+      </div>
+      <p class="contract-summary">
+        <strong>ACE (Automated Compliance Engine)</strong> — routes verified off-chain KYC/AML data to on-chain contracts. "Write Once, Read Many" reusable identity: users verify once with a trusted provider, receive a portable cryptographic credential, any whitelisted dApp can instantly query it. Plug-and-play with ERC-3643.
+        <br><br>
+        <strong>DECO</strong> — Zero-Knowledge Proof oracle. Investors cryptographically prove facts ("I am an accredited investor") from a web session without exposing the underlying PII to oracle nodes or the public ledger.
+      </p>
+      <table class="specs">
+        <tr><th>Our integration path</th><td class="plain">Our <a href="./index.html#permissioned-security">PermissionedToken</a> already uses the ERC-3643-inspired transfer-hook shape ACE plugs into. Design contract: replace the direct IdentityRegistry.eligibleFor() call with an ACE-attested claim check.</td></tr>
+        <tr><th>Why this matters</th><td class="plain">Onboarding friction is the single largest cost driver for institutional RWA adoption. "Write Once, Read Many" cuts per-issuance investor-verification cost from ~$500 to under $10.</td></tr>
+      </table>
+    </article>
+
+    <article class="contract cat-orc" id="cre">
+      <div class="contract-header">
+        <h3>Chainlink Runtime Environment (CRE)</h3>
+        <span class="badge b-orange">Chainlink</span>
+        <span class="badge b-amber">Integration Design</span>
+      </div>
+      <p class="contract-summary">
+        All-in-one orchestration layer that composes Data Feeds (pricing) + Proof of Reserve (solvency) + ACE (identity) + CCIP (settlement) into unified workflows. Effectively "the Chainlink stack as one API." Reduces the deployment complexity of a full RWA workflow from 5+ separate integrations to one CRE workflow definition.
+      </p>
+      <table class="specs">
+        <tr><th>Where this fits</th><td class="plain">The CRE is a natural upstream orchestrator for Unykorn Studio's plan executor. A single CRE workflow could produce the Studio approvals for a full RWA issuance, with our audit-trail receipts capturing the human-authorization events at each stage.</td></tr>
+      </table>
+    </article>
+
+    <h2 class="section-header cat-re">🏦 Tokenized Private Credit Market Leaders</h2>
+
+    <p>
+      Private credit is the largest single segment of the tokenized RWA market. As of 2026, five platforms dominate — each with a distinct borrower segment, blockchain choice, and operational model.
+    </p>
+
+    <article class="contract cat-re" id="figure">
+      <div class="contract-header">
+        <h3>Figure Technology Solutions</h3>
+        <span class="badge b-nav">HELOCs + Consumer Loans</span>
+        <span class="badge b-green">$18–$20.1B represented</span>
+      </div>
+      <p class="contract-summary">
+        Undisputed market leader by total represented value. Built on the Provenance Blockchain. Dominance driven by high-volume consumer lending (HELOCs, mortgage transactions). Blockchain-native Loan Origination System (LOS) + Digital Asset Registry Technology (DART) compress origination cost to ~$1,000/loan and time-to-close from weeks to days.
+      </p>
+      <table class="specs">
+        <tr><th>Marketplace</th><td class="plain">Figure Connect — packages loans, distributes to institutional buyers · 56% of Q1 2026 tokenized loan volumes</td></tr>
+        <tr><th>Recent innovation</th><td class="plain">YLDS — first SEC-registered, yield-bearing stablecoin offered as a public security, backed by prime money market securities</td></tr>
+        <tr><th>Institutional partner</th><td class="plain">Apollo — successfully executed and transferred mortgage transaction ownership on-chain</td></tr>
+        <tr><th>Shape match</th><td class="plain">Our <a href="./index.html#real-estate-debt-token">RealEstateDebtToken</a> ships the same fungible ERC-20 claim on a single mortgage/HELOC pattern Figure pioneered on Provenance — servicer-recorded P+I payments, accumulator distribution, note + deed hash pinning.</td></tr>
+      </table>
+    </article>
+
+    <article class="contract cat-re" id="maple">
+      <div class="contract-header">
+        <h3>Maple Finance</h3>
+        <span class="badge b-nav">Institutional Lending Pools</span>
+        <span class="badge b-green">$4.6–$5B AUM · $2B active loans</span>
+      </div>
+      <p class="contract-summary">
+        Largest institutional lending venue in DeFi. Curated credit marketplace managed by "Pool Delegates" (BlockTower, Room40, AQRU) who underwrite borrowers, negotiate fixed rates, and post first-loss capital. Cumulative loans since 2022 launch: $22B+. Targeting $100B annual loan volume by 2030.
+      </p>
+      <table class="specs">
+        <tr><th>Loan structure (post-2022 restructuring)</th><td class="plain">Corporate loans overcollateralized at 105–130% in liquid assets (BTC/ETH/SOL). 30–180 day fixed-rate terms. Pool Delegates take first-loss tranche.</td></tr>
+        <tr><th>Retail bridge</th><td class="plain">syrupUSDC / syrupUSDG permissionless tokens package institutional yield for retail — syrupUSDG deployed on Robinhood Chain for Robinhood Earn</td></tr>
+        <tr><th>Warehouse facility</th><td class="plain">On-chain warehouse for Kraken's OTC lending desk (2026)</td></tr>
+        <tr><th>Cash management</th><td class="plain">Vault holding tokenized US Treasuries (BlackRock BUIDL, Circle USYC) for DAO/crypto-firm treasuries</td></tr>
+        <tr><th>Named Pool Delegates</th><td class="plain"><a href="./integrations.html#blocktower">BlockTower Capital</a> (structured credit backed by receivables + equipment), <a href="./integrations.html#room40">Room40 Ventures</a>, <a href="./integrations.html#aqru">AQRU</a>. Each posts 2-10% of pool NAV as first-loss capital. See <a href="./integrations.html#funders-crypto">integrations map</a> for per-firm breakdown.</td></tr>
+        <tr><th>Our integration</th><td class="plain"><a href="./index.html#private-credit-pool">PoolDelegatePool.sol</a> ships the same shape: whitelisted lenders, Pool Delegate role, first-loss capital tranche, per-borrower concentration caps, cooldown-gated redemptions</td></tr>
+      </table>
+    </article>
+
+    <article class="contract cat-re" id="centrifuge">
+      <div class="contract-header">
+        <h3>Centrifuge</h3>
+        <span class="badge b-nav">Trade Finance + Structured Credit</span>
+        <span class="badge b-green">~$430M active pools + $880M Janus JTRSY</span>
+      </div>
+      <p class="contract-summary">
+        Longest-running dedicated private credit marketplace. Focuses on securitizing off-chain assets (trade finance, invoices, consumer credit) into senior and junior tranches. Purpose-built for bespoke, structured credit pools that compound more slowly than broader institutional funds.
+      </p>
+      <table class="specs">
+        <tr><th>Janus Henderson partnership</th><td class="plain">Hosts $880.7M tokenized Treasury fund (JTRSY)</td></tr>
+        <tr><th>Sky (formerly Maker) integration</th><td class="plain">Centrifuge debt tranches used as collateral in Sky protocol — originators borrow USDS stablecoin against real-world assets. Historically funded 85%+ of Centrifuge-originated loans. Concrete example: <a href="./integrations.html#makerdao-sky">MakerDAO provided $150M in senior capital</a> backing <a href="./integrations.html#blocktower">BlockTower's</a> $220M Centrifuge origination in Oct 2022 — the deal that established the "originator-retains-junior + Sky-funds-senior" template. See <a href="./integrations.html#makerdao-sky">integrations map</a> for the mechanism.</td></tr>
+        <tr><th>Named originators</th><td class="plain"><a href="./integrations.html#blocktower">BlockTower Capital</a> (holds junior "TIN" tranche, absorbs first loss, largest single institutional originator by AUM). Other pools originated by various asset managers across trade finance, invoices, consumer credit, real-estate bridge loans.</td></tr>
+        <tr><th>Shape match — three families</th><td class="plain">
+          Our library ships the full Centrifuge product surface across three contracts:
+          <ul>
+            <li><a href="./index.html#invoice-factoring-pool">InvoiceFactoringPool</a> — short-tenor receivables (30-90 days), the Tinlake origination shape</li>
+            <li><a href="./index.html#bridge-loan-tranche-pool">BridgeLoanTranchePool</a> — ongoing origination of bridge loans, two tranches (originator retains junior first-loss, on-chain investors buy senior), senior tranche freely transferable so it composes with Sky protocol for USDS-collateralized borrowing</li>
+            <li><a href="./index.html#inventory-financing-spv">InventoryFinancingSPV</a> — single-asset asset-backed loan for physical inventory (Kevan's $2M EV charger reference deal in Tennessee), UCC-1 lien hash pinned on-chain, senior/junior tranche stack with amortizing waterfall</li>
+          </ul>
+        </td></tr>
+      </table>
+    </article>
+
+    <article class="contract cat-re" id="goldfinch">
+      <div class="contract-header">
+        <h3>Goldfinch</h3>
+        <span class="badge b-nav">Emerging-Market Debt</span>
+        <span class="badge b-amber">Low tens of millions active</span>
+      </div>
+      <p class="contract-summary">
+        Prominent platform focused on emerging market debt and non-bank lenders. Early pioneer whose active loan value declined from 2021–2022 peak following borrower defaults. Recently pivoted to a highly structured institutional wrapper called Goldfinch Prime.
+      </p>
+      <table class="specs">
+        <tr><th>Institutional wrapper stack</th><td class="plain">Securitize as regulatory issuance layer · Anchorage Digital Bank as qualified custodian</td></tr>
+      </table>
+    </article>
+
+    <article class="contract cat-re" id="realt-lofty">
+      <div class="contract-header">
+        <h3>RealT · Lofty · Fractional Property Equity</h3>
+        <span class="badge b-nav">Retail Property Tokenization</span>
+        <span class="badge b-green">$100M+ combined property NAV</span>
+      </div>
+      <p class="contract-summary">
+        Reference shape for tokenizing the equity side of real estate — a Delaware LLC legally owns a single property, membership interests are issued as fractional ERC-20 shares, and net rental income (after property tax, insurance, maintenance reserves) is deposited into the contract at operational cadence (daily for RealT, monthly for larger commercial). Holders claim pro-rata via accumulator pattern. On property sale, sponsor deposits sale proceeds and holders redeem tokens for cash. Regulatory posture: RealT restricts to non-U.S. retail via Reg S; other issuers use Reg D 506(c) for U.S. accredited. Set required claim topics accordingly.
+      </p>
+      <table class="specs">
+        <tr><th>Portfolio composition</th><td class="plain">Primarily U.S. Midwest residential single-family properties. Sub-$150K NAV per property makes retail-scale fractional ownership economically viable.</td></tr>
+        <tr><th>Distribution cadence</th><td class="plain">RealT: daily USDC distributions from rental income. Lofty: weekly. Larger commercial issuers: monthly.</td></tr>
+        <tr><th>Shape match</th><td class="plain">Our <a href="./index.html#fractional-property-token">FractionalPropertyToken</a> ships this exact shape — sponsor mints during offering, property manager deposits net income, accumulator distributes to holders, sale-of-property redemption mechanism retires the token. Property address hash + deed hash + SPV formation doc hash pinned on-chain for evidentiary provenance without exposing the physical address.</td></tr>
+      </table>
+    </article>
+
+    <article class="contract cat-sec" id="securitize">
+      <div class="contract-header">
+        <h3>Securitize</h3>
+        <span class="badge b-purple">SEC-Registered Transfer Agent</span>
+        <span class="badge b-green">~$3.5B tokenized assets across all classes</span>
+      </div>
+      <p class="contract-summary">
+        General RWA platform (not credit-specific). SEC-registered transfer agent and issuance platform for major institutional funds including Apollo's tokenized credit fund and BlackRock's BUIDL. Routes tokenized equities, Treasuries, and credit — effectively the compliance backbone for institutional issuance.
+      </p>
+      <table class="specs">
+        <tr><th>Notable issuances</th><td class="plain">BlackRock BUIDL (tokenized Treasury fund) · Apollo tokenized credit fund · Goldfinch Prime wrapper</td></tr>
+        <tr><th>Shape match</th><td class="plain">Our <a href="./index.html#permissioned-security">PermissionedToken</a> ships the same ERC-3643-shape investor eligibility layer Securitize uses for its transfer-agent role. Deploy in parallel with a Securitize-registered offering.</td></tr>
+      </table>
+    </article>
+
+    <h2 class="section-header cat-purple">🤝 Major Integrations (2026)</h2>
+
+    <p>
+      The tokenized RWA market has quietly integrated with major TradFi rails. This section maps the pilots and production integrations already live.
+    </p>
+
+    <article class="contract cat-orc" id="chainlink-banks">
+      <div class="contract-header">
+        <h3>Chainlink + Global Banking Infrastructure</h3>
+        <span class="badge b-orange">CCIP · PoR · Data Streams</span>
+      </div>
+      <ul>
+        <li><strong>Swift + UBS Asset Management</strong> — CCIP pilot for tokenized fund subscription/redemption automation via existing Swift payment rails</li>
+        <li><strong>ANZ Bank</strong> — CCIP-based Delivery-versus-Payment under Project Guardian</li>
+        <li><strong>SBI Digital Markets + ADDX</strong> — CCIP for cross-chain automated fund administration + transfer agency + privacy-preserving private transactions</li>
+        <li><strong>Pleasing Market</strong> — Migrated exclusively to CCIP + Data Streams for tokenized precious metals (PGOLD, USDpm) distribution across multiple chains</li>
+        <li><strong>HSBC + Ant Group</strong> — Cross-border tokenized deposits integrated with existing SWIFT correspondent banking</li>
+        <li><strong>PoR partners</strong> — 21.co (ARK 21Shares BTC ETF), Backed, Bedrock, Wenia/Bancolombia — all use Chainlink PoR as their production reserve verification</li>
+      </ul>
+    </article>
+
+    <article class="contract cat-re" id="credit-integrations">
+      <div class="contract-header">
+        <h3>Tokenized Private Credit &amp; Lending Platforms</h3>
+        <span class="badge b-nav">Maple · Centrifuge · Goldfinch · Figure</span>
+      </div>
+      <ul>
+        <li><strong>Maple + Robinhood</strong> — syrupUSDG deployed on Robinhood Chain, powering Robinhood Earn's yield product</li>
+        <li><strong>Maple + Kraken</strong> — On-chain warehouse facility for Kraken's OTC lending desk</li>
+        <li><strong>Centrifuge + Janus Henderson</strong> — Hosts the $880.7M JTRSY tokenized Treasury fund</li>
+        <li><strong>Centrifuge + Sky (formerly Maker)</strong> — Debt tranches as collateral; originators borrow USDS against RWAs</li>
+        <li><strong>Goldfinch + Securitize + Anchorage</strong> — Institutional Goldfinch Prime stack (Securitize as issuance wrapper, Anchorage Digital Bank as qualified custodian)</li>
+        <li><strong>Figure + Apollo</strong> — Blockchain-based mortgage transaction execution and ownership transfer</li>
+      </ul>
+    </article>
+
+    <article class="contract cat-sec" id="dexes">
+      <div class="contract-header">
+        <h3>Asset Managers &amp; DeFi Protocols</h3>
+        <span class="badge b-purple">BlackRock · Franklin Templeton · Binance · Galaxy</span>
+      </div>
+      <ul>
+        <li><strong>BlackRock + Uniswap</strong> — BUIDL fund integrated with UniswapX, allowing the regulated tokenized fund to trade via DeFi rails</li>
+        <li><strong>Franklin Templeton + Ondo Finance</strong> — Tokenized versions of five ETFs tradable 24/7 via crypto wallets</li>
+        <li><strong>Binance + Ondo Finance</strong> — Tokenized stock trading relaunch on Binance, expanding equity distribution to crypto-native users</li>
+        <li><strong>Galaxy Digital + Kamino Finance</strong> — Tokenized GLXY shares as borrowing collateral on Kamino (Solana's largest lending protocol)</li>
+      </ul>
+    </article>
+
+    <article class="contract cat-sec" id="exchanges">
+      <div class="contract-header">
+        <h3>Traditional Exchanges &amp; Capital Markets</h3>
+        <span class="badge b-purple">Nasdaq · ICE · DTCC · LSEG · Euroclear</span>
+      </div>
+      <ul>
+        <li><strong>Nasdaq + Kraken</strong> — "Equities transformation gateway" for tokenized equities to move between Nasdaq's regulated environment and broader digital-asset ecosystems</li>
+        <li><strong>ICE + OKX</strong> — Intercontinental Exchange (NYSE parent) strategic investment to expand tokenized-equity distribution to digital-asset investors</li>
+        <li><strong>Canton Network Consortium</strong> — DTCC, LSEG, Euroclear, Tradeweb, Citadel Securities, Societe Generale completed first cross-border intraday repo using tokenized UK gilts</li>
+      </ul>
+    </article>
+
+    <h2 class="section-header cat-nav" id="where-we-fit">📍 Where Unykorn fits</h2>
+
+    <p>
+      Everyone above is a peer or an integration surface, not a competitor. Our position is specific and defensible:
+    </p>
+
+    <ul>
+      <li><strong>Substrate, not product</strong>. Figure, Maple, Centrifuge, Securitize each own a segment. We ship the audit-trail infrastructure that any of them (or any new entrant) can use to make their issuances independently verifiable by counsel.</li>
+      <li><strong>Chainlink integration, not replacement</strong>. Every Chainlink module — Data Feeds, PoR, CCIP, ACE, DECO, CRE — becomes a step kind in Unykorn Studio's executor, with its own receipt action in the ledger. We don't rebuild any of it; we make it approvable and auditable.</li>
+      <li><strong>Open library, not walled garden</strong>. Every contract in this repo is MIT-licensed. Every integration pattern in Studio is documented. Sponsors who use Studio for one deal own their audit ledger (a plain JSONL file); Unykorn doesn't lock them in.</li>
+      <li><strong>The seam nobody else covers</strong>. Foundry produces artifacts. OpenZeppelin Defender administers post-deploy. Tokeny enforces transfer rules. None of them produce an unbroken cryptographic chain from "the operator asked for this" through "this exact bytecode was compiled from these sources" through "this draw released against this waiver." That's the whole product.</li>
+    </ul>
+
+    <footer class="site-footer">
+      <p>
+        Landscape as of 2026 · Sources: Chainlink docs · Ecosystem Marketplace State of the VCM 2025 · rwa.xyz platform data · Maple / Centrifuge / Figure / Goldfinch / Securitize public reports
+      </p>
+      <p>
+        <a href="./index.html">← Back to the contract catalog</a>
+      </p>
+    </footer>
+
+  </main>
+</div>
+
+</body>
+</html>
