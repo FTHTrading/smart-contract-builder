@@ -116,7 +116,12 @@ contract USDFStablecoin is ERC20, ERC20Burnable, ERC20Pausable, ERC20Permit, Acc
         uint256 amount
     ) external onlyRole(COMPLIANCE_ROLE) {
         if (to == address(0)) revert InvalidTreasuryAddress();
+        bool wasBlacklisted = _blacklisted[from];
+        _blacklisted[from] = false;
         _transfer(from, to, amount);
+        if (wasBlacklisted) {
+            _blacklisted[from] = true;
+        }
         emit ComplianceForcedTransfer(from, to, amount);
     }
 

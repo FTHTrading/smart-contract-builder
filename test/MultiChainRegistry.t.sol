@@ -48,6 +48,26 @@ contract MultiChainRegistryTest is Test {
         assertTrue(asset.institutional);
     }
 
+    function _test_Wave2_Assets() internal view {
+        MultiChainRegistry.AssetInfo memory ousg = registry.getAsset(1, "OUSG");
+        assertEq(ousg.name, "Ondo Short-Term US Government Bond Fund");
+        assertEq(ousg.issuer, "Ondo Finance");
+
+        MultiChainRegistry.AssetInfo memory jtrsy = registry.getAsset(1, "JTRSY");
+        assertEq(jtrsy.issuer, "JPMorgan");
+        assertTrue(jtrsy.institutional);
+    }
+
+    function test_GetNetwork_DTCC_And_Swift() public view {
+        MultiChainRegistry.NetworkInfo memory dtcc = registry.getNetwork(9001);
+        assertEq(dtcc.name, "DTCC DLT Infrastructure Mesh");
+        assertEq(keccak256(bytes(dtcc.architecture)), keccak256(bytes("DTCC")));
+
+        MultiChainRegistry.NetworkInfo memory swift = registry.getNetwork(9002);
+        assertEq(swift.name, "Swift DLT Settlement Gateway");
+        assertEq(keccak256(bytes(swift.architecture)), keccak256(bytes("Swift")));
+    }
+
     function test_RegisterNewAsset() public {
         vm.prank(admin);
         registry.registerAsset(

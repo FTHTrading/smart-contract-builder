@@ -5,18 +5,18 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**
  * @title MultiChainRegistry
- * @notice Universal Canonical Settlement & Token-Discovery Registry spanning EVM, XRPL, Stellar, Solana, Apostle Chain, and Canton Network.
- * @dev Manages 22 institutional, regulated, treasury, and DeFi stablecoin asset definitions across 12 settlement networks.
+ * @notice Universal Canonical Settlement & Token-Discovery Registry spanning EVM, XRPL, Stellar, Solana, Apostle Chain, Canton Network, DTCC DLT, and Swift DLT Gateways.
+ * @dev Manages 28 institutional, regulated, treasury, and DeFi stablecoin asset definitions across 18 settlement networks.
  */
 contract MultiChainRegistry is AccessControl {
     bytes32 public constant REGISTRY_ADMIN_ROLE = keccak256("REGISTRY_ADMIN_ROLE");
 
     struct NetworkInfo {
         string name;
-        uint256 chainId; // 0 for non-EVM networks (Canton, XRPL L1, Stellar, Solana)
+        uint256 chainId; // 0 for non-EVM networks (Canton, DTCC, Swift, XRPL L1, Stellar, Solana)
         uint64 ccipChainSelector;
         address ccipRouter;
-        string architecture; // "EVM", "Canton", "XRPL", "Stellar", "Solana", "Apostle"
+        string architecture; // "EVM", "Canton", "DTCC", "Swift", "XRPL", "Stellar", "Solana", "Apostle"
         bool active;
     }
 
@@ -164,10 +164,18 @@ contract MultiChainRegistry is AccessControl {
         _setNetwork(7332, "Apostle Sovereign Chain", 733273327332, address(0), "Apostle");
         _setNetwork(1440002, "XRPL EVM Sidechain", 0, address(0), "XRPL");
         _setNetwork(0, "Canton Network Consortium", 0, address(0), "Canton");
+        _setNetwork(9001, "DTCC DLT Infrastructure Mesh", 0, address(0), "DTCC");
+        _setNetwork(9002, "Swift DLT Settlement Gateway", 0, address(0), "Swift");
     }
 
     function _initializeAssets() internal {
-        // --- Tier 1: Table Stakes ---
+        _initTier1();
+        _initTier2And3();
+        _initTier4And5();
+        _initWave2Institutional();
+    }
+
+    function _initTier1() internal {
         _setAsset(1, "USDC", "USD Coin", "Circle", address(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48), 6, true, true, true);
         _setAsset(1, "USDT", "Tether USD", "Tether", address(0xdAC17F958D2ee523a2206206994597C13D831ec7), 6, true, true, true);
         _setAsset(1, "USDF", "Unykorn Sovereign USD", "Unykorn", address(0), 18, true, true, true);
@@ -176,27 +184,42 @@ contract MultiChainRegistry is AccessControl {
         _setAsset(1, "USDS", "Sky Dollar", "Sky Protocol", address(0), 18, false, false, false);
         _setAsset(1, "DAI", "Dai Stablecoin", "MakerDAO", address(0x6B175474E89094C44Da98b954EedeAC495271d0F), 18, false, false, false);
         _setAsset(1, "EURC", "Euro Coin", "Circle", address(0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c), 6, true, true, true);
+    }
 
-        // --- Tier 2: Paxos Ecosystem ---
+    function _initTier2And3() internal {
         _setAsset(1, "USDP", "Pax Dollar", "Paxos", address(0x8E870D67F660D95d5be530380D0eC0bd388289E1), 18, true, true, true);
         _setAsset(1, "USDG", "Global Dollar", "Paxos Network", address(0), 6, true, true, true);
 
-        // --- Tier 3: Institutional / Treasury Tokens ---
         _setAsset(1, "BUIDL", "BlackRock USD Institutional Digital Liquidity Fund", "BlackRock", address(0), 6, true, true, true);
         _setAsset(1, "BENJI", "Franklin OnChain U.S. Government Money Fund", "Franklin Templeton", address(0), 6, true, true, true);
         _setAsset(1, "USYC", "Circle Yield Coin", "Circle/Hashnote", address(0), 6, true, true, true);
         _setAsset(1, "USDY", "Ondo US Dollar Yield Token", "Ondo Finance", address(0), 18, true, true, true);
+    }
 
-        // --- Tier 4: DeFi Leaders ---
+    function _initTier4And5() internal {
         _setAsset(1, "USDe", "Ethena USDe", "Ethena", address(0x4c9EDD5852cd905f086C759E8383e09bff1E68B3), 18, false, false, false);
         _setAsset(1, "GHO", "GHO Token", "Aave", address(0x40d16Fc13A55145A45a301285A06a26669dBc681), 18, false, false, false);
         _setAsset(1, "crvUSD", "Curve DAO USD", "Curve", address(0xf939e0a03Fb07f2188A11e27799717857599b31e), 18, false, false, false);
         _setAsset(1, "FRAX", "Frax Stablecoin", "Frax Finance", address(0x853d955aCEf822Db058eb8505911ED77F175b99e), 18, false, false, false);
 
-        // --- Tier 5: Regulated Fiat Stablecoins ---
         _setAsset(1, "FDUSD", "First Digital USD", "First Digital", address(0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409), 18, true, true, true);
         _setAsset(1, "TUSD", "TrueUSD", "Archblock", address(0x0000000000085d4780B73119b644AE5ecd22b376), 18, true, true, true);
         _setAsset(1, "GUSD", "Gemini Dollar", "Gemini", address(0x056Fd409e1d7A124BD7017459DFEa235F21d6512), 2, true, true, true);
         _setAsset(1, "USD1", "World Liberty Financial USD", "World Liberty Financial", address(0), 18, true, true, true);
+    }
+
+    function _initWave2Institutional() internal {
+        // Ondo Short-Term US Treasury
+        _setAsset(1, "OUSG", "Ondo Short-Term US Government Bond Fund", "Ondo Finance", address(0x1b19c19393E2d034D8fF31fF34C81252dfbdfB35), 18, true, true, true);
+        // BlackRock Treasury Fund Variant
+        _setAsset(1, "BTF", "BlackRock Treasury Fund Token", "BlackRock", address(0), 6, true, true, true);
+        // JPMorgan Treasury Token
+        _setAsset(1, "JTRSY", "JPMorgan Institutional Treasury Token", "JPMorgan", address(0), 6, true, true, true);
+        // Savings DAI
+        _setAsset(1, "sDAI", "Savings Dai", "MakerDAO / Sky", address(0x83F20F44975D03b1b09e64809B757c47f942BEeA), 18, false, true, false);
+        // Resolv USD
+        _setAsset(1, "USR", "Resolv USD", "Resolv", address(0), 18, false, false, false);
+        // BlackRock-Backed Ethena Reserve Token
+        _setAsset(1, "USDTb", "BlackRock-Backed Ethena Reserve Token", "Ethena / BlackRock", address(0), 18, true, true, true);
     }
 }
