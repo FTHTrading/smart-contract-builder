@@ -1,0 +1,128 @@
+openapi: 3.0.3
+info:
+  title: Unykorn Institutional Digital Asset Operating System API
+  description: Enterprise OpenAPI Gateway for Identity, Compliance, Regulatory Frameworks, Multi-Chain Assets, Treasury Ledger, and Settlement Hub.
+  version: 1.0.0
+servers:
+  - url: https://api.unykorn.ai/v1
+    description: Production API Gateway
+  - url: https://sandbox.unykorn.ai/v1
+    description: Institutional Sandbox Gateway
+paths:
+  /identity/{address}:
+    get:
+      summary: Fetch verified institutional identity and LEI profile
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Verified Identity Profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  legalName:
+                    type: string
+                  lei:
+                    type: string
+                  bic:
+                    type: string
+                  jurisdiction:
+                    type: string
+                  investorClass:
+                    type: string
+                  riskLevel:
+                    type: string
+                  verified:
+                    type: boolean
+
+  /compliance/validate-transfer:
+    post:
+      summary: Real-time compliance check for investor transfer validation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fromAddress:
+                  type: string
+                toAddress:
+                  type: string
+                assetSymbol:
+                  type: string
+                amount:
+                  type: string
+      responses:
+        '200':
+          description: Compliance Decision
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  approved:
+                    type: boolean
+                  reason:
+                    type: string
+
+  /treasury/ledger/{entityAddress}:
+    get:
+      summary: Query double-entry General Ledger and total AUM
+      parameters:
+        - name: entityAddress
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Treasury General Ledger & AUM Statement
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entityAddress:
+                    type: string
+                  totalAUMUSD:
+                    type: string
+                  assetBalances:
+                    type: object
+
+  /settlement/swap:
+    post:
+      summary: Execute atomic multi-stablecoin settlement swap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fromSymbol:
+                  type: string
+                toSymbol:
+                  type: string
+                inputAmount:
+                  type: string
+      responses:
+        '200':
+          description: Settlement Receipt
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactionHash:
+                    type: string
+                  outputAmount:
+                    type: string
+                  feeUSD:
+                    type: string
