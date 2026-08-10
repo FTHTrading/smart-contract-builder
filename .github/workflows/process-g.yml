@@ -1,0 +1,42 @@
+name: process-G Quality & Invariant Verification
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  verify:
+    name: ANVIL / process-G Quality Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Verify process-G receipts chain
+        run: |
+          if [ -f "anvil/scripts/receipt.mjs" ]; then
+            node anvil/scripts/receipt.mjs --verify
+          else
+            echo "Receipts script absent or skipped."
+          fi
+
+      - name: Compile Solidity contracts
+        run: |
+          forge build --sizes
+
+      - name: Run Foundry test suite & invariants
+        run: |
+          forge test -vv

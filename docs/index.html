@@ -34,6 +34,7 @@
       <h3>Tokenized Funds</h3>
       <a href="#tokenized-treasury" class="cat-re">Tokenized Treasury / MMF</a>
       <a href="#cash-management-vault" class="cat-re">Cash Management Vault</a>
+      <a href="#async-vault-7540" class="cat-re">Async Vault (ERC-7540 + ERC-8161)</a>
 
       <h3>Real Estate (Debt + Equity)</h3>
       <a href="#real-estate-debt-token" class="cat-re">Tokenized Mortgage / HELOC</a>
@@ -73,7 +74,7 @@
         <span class="badge b-nav">Solidity 0.8.24</span>
         <span class="badge b-nav">EVM: paris</span>
         <span class="badge b-nav">Optimizer: 200 runs</span>
-        <span class="badge b-green">17 shipped families · 24 contracts · 4,000+ Solidity lines</span>
+        <span class="badge b-green">18 shipped families · 27 contracts · 4,300+ Solidity lines</span>
         <span class="badge b-amber">2 design contracts</span>
         <span class="badge">MIT license</span>
       </div>
@@ -99,7 +100,7 @@
         </div>
         <div class="category-card cat-re">
           <h4>💵 Tokenized Funds</h4>
-          <div class="count">2 shipped families · BUIDL-shape + ERC-4626 vault</div>
+          <div class="count">3 shipped families · BUIDL-shape + ERC-4626 vault + ERC-7540/8161 async vault</div>
         </div>
         <div class="category-card cat-re">
           <h4>🏠 Real Estate (Debt + Equity)</h4>
@@ -346,6 +347,32 @@
       </table>
       <div class="file-list">
         <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/cash-management/CashManagementVault.sol">CashManagementVault.sol</a>
+      </div>
+    </article>
+
+    <article class="contract cat-re" id="async-vault-7540">
+      <div class="contract-header">
+        <h3>Async Vault — ERC-7540 + ERC-8161</h3>
+        <span class="badge b-green">SHIPPED</span>
+        <span class="badge b-purple">ERC-7540 async request queue</span>
+        <span class="badge b-orange">ERC-8161 transferable pending requests</span>
+      </div>
+      <p class="contract-summary">
+        Canonical ERC-7540 async request-based vault (subscribe/redeem via pending queue, fulfilled by the fund admin at a specified NAV), extended with ERC-8161 transferability — a controller can transfer the entire pending balance of a deposit or redeem request to a new controller before settlement. Unlocks a pre-settlement secondary market for locked positions, frictionless wallet migration, and an optional transfer-fee revenue stream for the issuer. ERC-8161 was published February 2025 by Centrifuge's CTO (co-author of ERC-7540 itself) — early implementation reframes the Centrifuge Whitelabel customer relationship into first-mover status on the vendor's own next-generation standard.
+      </p>
+      <table class="specs">
+        <tr><th>Contract</th><td>AsyncVault7540 (canonical), ERC7540Transferable (mixin), IERC7540Transferable (interface)</td></tr>
+        <tr><th>Composes with</th><td class="plain"><a href="#permissioned-security">PermissionedToken</a> (receiver eligibility on transfer + at settlement — mandatory, otherwise 8161 becomes a compliance bypass) · <a href="#chainlink-oracle">RWAOracle</a> (NAV pricing if admin fulfillment is oracle-driven)</td></tr>
+        <tr><th>ERC-165 IDs</th><td class="plain">IERC7540DepositTransferable: <code>0x53b3bb0a</code> · IERC7540RedeemTransferable: <code>0x7846f5bd</code></td></tr>
+        <tr><th>Fee capture</th><td class="plain">Configurable <code>transferFeeBps</code> hard-capped at 100 bps (1%). Skimmed to a treasury address on secondary transfers. Default 0.</td></tr>
+        <tr><th>Guardrails</th><td class="plain">Zero-address rejection · pending balance must be nonzero · caller must be controller or approved operator · full balance only (no partial transfers) · fee cap enforced · operator re-approval pattern recommended before enabling on production accounts</td></tr>
+        <tr><th>Spec</th><td class="plain"><a href="https://eips.ethereum.org/EIPS/eip-7540" target="_blank" rel="noopener">ERC-7540</a> · <a href="https://eips.ethereum.org/EIPS/eip-8161" target="_blank" rel="noopener">ERC-8161</a> (authored by Cain O'Sullivan and Jeroen Offerijns / Centrifuge)</td></tr>
+      </table>
+      <div class="file-list">
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/async-vault-7540/AsyncVault7540.sol">AsyncVault7540.sol</a>
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/mixins/ERC7540Transferable.sol">ERC7540Transferable.sol</a>
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/interfaces/IERC7540Transferable.sol">IERC7540Transferable.sol</a>
+        <a href="https://github.com/FTHTrading/smart-contract-builder/tree/main/contracts/rwa/async-vault-7540/README.md">README (21 use cases + 4 worked scenarios)</a>
       </div>
     </article>
 

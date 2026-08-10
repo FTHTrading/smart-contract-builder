@@ -1,0 +1,18 @@
+{
+  "name": "anvil",
+  "version": "1.1.0",
+  "description": "Unykorn ANVIL discipline engine for Claude Code: stage-gated ANVIL PATH (G0-G7 with custody-chain / trading-rail / ai-agent / web-portal overlays), PreToolUse secrets + destructive-command guards, PostToolUse real-time quality feedback, hash-chained append-only ops.receipts with receipted gate passage, and /spec /plan /review /path /gate /receipts workflow. Sovereign replacement for superpowers + claudekit.",
+  "author": {
+    "name": "Kevan Burns / Unykorn 7777 Inc.",
+    "url": "https://portal.unykorn.ai"
+  },
+  "repository": "https://github.com/unykorn/unykorn-anvil",
+  "license": "UNLICENSED",
+  "keywords": [
+    "anvil",
+    "receipts",
+    "guardrails",
+    "tdd",
+    "unykorn"
+  ]
+}
