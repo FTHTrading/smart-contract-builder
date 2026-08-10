@@ -18,7 +18,7 @@ evm_version = "paris"
 # IPFS-hashed metadata enables Etherscan / Sourcify verification.
 bytecode_hash = "ipfs"
 
-via_ir = false
+via_ir = true
 
 # Match Unykorn Studio's compile settings byte-for-byte. Contract bytecode
 # compiled here is identical to what Studio's self-hosted WASM worker produces
